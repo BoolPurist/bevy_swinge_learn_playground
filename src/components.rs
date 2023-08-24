@@ -19,6 +19,9 @@ pub enum WanderingNpc {
     Wandering(Vec2),
 }
 
+#[derive(Component)]
+pub struct PigContainer;
+
 #[derive(Component, Debug)]
 pub struct Pig {
     pub life_time: Timer,

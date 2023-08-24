@@ -2,7 +2,8 @@ use bevy::prelude::*;
 
 use crate::{
     components::{
-        MainGameCamera, MoneyScore, Pig, Player, RandChangeWanderingNpc, Speed, WanderingNpc,
+        MainGameCamera, MoneyScore, Pig, PigContainer, Player, RandChangeWanderingNpc, Speed,
+        WanderingNpc,
     },
     pig_utils, rand_utils,
     resources::{GameConfig, Income, Money},
@@ -15,6 +16,7 @@ pub fn spawn_pig(
     config: Res<GameConfig>,
     mut money: ResMut<Money>,
     player: Query<&Transform, With<Player>>,
+    pig_container: Query<Entity, With<PigContainer>>,
 ) {
     if !input.just_pressed(KeyCode::Space) {
         return;
@@ -25,7 +27,14 @@ pub fn spawn_pig(
     if money.0 >= price {
         money.0 -= price;
         info!("Spent ${} on a pig, remainnig money: ${}", money.0, price);
-        pig_utils::create_pig(&player_trans, &mut commands, &assert_server, &config)
+        let pig_container_entity = pig_container.single();
+        pig_utils::create_pig(
+            &player_trans,
+            &mut commands,
+            &assert_server,
+            &config,
+            pig_container_entity,
+        )
     } else {
         warn!("Not enought money require at least ${}", price)
     }

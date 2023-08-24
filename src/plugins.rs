@@ -1,7 +1,7 @@
 use bevy::{core_pipeline::clear_color::ClearColorConfig, prelude::*};
 
 use crate::{
-    components::{AabbColl, MainGameCamera, MoneyScore},
+    components::{AabbColl, MainGameCamera, MoneyScore, PigContainer},
     resources::{GameConfig, Income, Money, WorldDim, GAME_HEIGHT, GAME_WIDTH},
     systems, Player, Speed,
 };
@@ -50,6 +50,11 @@ fn setup(mut commands: Commands, config: Res<GameConfig>, assert_server: Res<Ass
             ..default()
         },
         MainGameCamera,
+    ));
+    commands.spawn((
+        SpatialBundle::default(),
+        Name::new("All pigs"),
+        PigContainer,
     ));
 
     commands.spawn((
